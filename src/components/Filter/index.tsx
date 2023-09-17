@@ -4,7 +4,7 @@ import { useAppSelector } from "../../hooks/useRedux";
 import IList from "../../interfaces/IList"; // Importe a interface IList
 
 interface FilterProps {
-    getData: (filteredLists: IList[]) => void; // Especifique o tipo de getData
+    getData: (props: IList[]) => void; // Especifique o tipo de getData
 }
 function Filter(props: FilterProps) {
     const { lists } = useAppSelector((state) => state.lists);

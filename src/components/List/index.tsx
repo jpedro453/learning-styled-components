@@ -39,7 +39,7 @@ const List: React.FC = () => {
         }
         setErrorMessage(undefined);
 
-        const newList = {
+        const newList: IList = {
             id: idCounter,
             title,
             completed: false,

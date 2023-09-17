@@ -14,6 +14,7 @@ export const Container = styled.div`
         display: inline-block;
         width: 40px;
         height: 14px;
+        bottom: -4px;
     }
 
     /* Hide default HTML checkbox */
@@ -21,6 +22,8 @@ export const Container = styled.div`
         opacity: 0;
         width: 0;
         height: 0;
+        display: none;
+        position: absolute;
     }
 
     /* The slider */
@@ -49,7 +52,7 @@ export const Container = styled.div`
     }
 
     input:checked + .slider {
-        background-color: ${(props) => props.theme.colors.secondary};
+        background-color: ${(props) => props.theme.colors.background};
     }
 
     input:focus + .slider {

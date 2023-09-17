@@ -50,7 +50,7 @@ const List: React.FC = () => {
         setIdCounter(idCounter + 1);
     };
 
-    function getData(selectedData: any) {
+    function getData(selectedData: IList[]) {
         setSelectedData(selectedData);
     }
 

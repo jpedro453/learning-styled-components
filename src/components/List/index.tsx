@@ -7,7 +7,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
 
+import IList from "../../interfaces/IList";
+
 import { add, remove } from "../../store/slices/list.slice";
+
 import ListItem from "../ListItem";
 
 import Filter from "../Filter";
@@ -16,6 +19,8 @@ const List: React.FC = () => {
     const { lists } = useAppSelector((state) => state.lists);
 
     const [title, setTitle] = useState<string | undefined>("");
+
+    const [selectedData, setSelectedData] = useState<IList[]>(lists);
 
     const [errorMessage, setErrorMessage] = useState<string | undefined>();
 
@@ -44,13 +49,10 @@ const List: React.FC = () => {
 
         setIdCounter(idCounter + 1);
     };
-    const [filterData, setfilterData] = useState([]);
 
-    // Função de callback para receber dados do componente filho
-    const receiveData = (dados: any) => {
-        setfilterData(dados);
-    };
-    console.log(filterData);
+    function getData(selectedData: any) {
+        setSelectedData(selectedData);
+    }
 
     return (
         <Container>
@@ -65,11 +67,11 @@ const List: React.FC = () => {
                     Enviar <FontAwesomeIcon icon={faPaperPlane} />
                 </button>
             </form>
-            <Filter sendData={receiveData} />
+            <Filter getData={getData} />
             {errorMessage && errorMessage}
-            {lists.length > 0 && (
+            {selectedData.length > 0 && (
                 <div className="lists-container">
-                    {lists.map((list) => (
+                    {selectedData.map((list) => (
                         <ListItem key={list.id} item={list} />
                     ))}
                 </div>

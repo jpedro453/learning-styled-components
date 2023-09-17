@@ -1,20 +1,18 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import { Container } from "./style";
 import { useAppSelector } from "../../hooks/useRedux";
+import IList from "../../interfaces/IList"; // Importe a interface IList
 
-function Filter(props: { sendData: (dados: any) => void }) {
+interface FilterProps {
+    getData: (filteredLists: IList[]) => void; // Especifique o tipo de getData
+}
+function Filter(props: FilterProps) {
     const { lists } = useAppSelector((state) => state.lists);
-
-    const [dados, setDados] = useState(lists);
-
     const [sorting, setSorting] = useState<string>("all");
 
-    let filteredLists = [...lists];
-    // Crie uma cópia da lista para não modificar a original
-    const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedSorting = e.target.value;
-        setSorting(selectedSorting);
+    // Atualize a lista filtrada sempre que o estado de sorting mudar
+    useEffect(() => {
+        let filteredLists = [...lists];
 
         if (sorting === "completed") {
             filteredLists = filteredLists.filter(
@@ -26,14 +24,16 @@ function Filter(props: { sendData: (dados: any) => void }) {
             );
         }
 
-        setDados(filteredLists);
-
         // Chama a função de callback para enviar dados para o pai
-        props.sendData(filteredLists);
+        props.getData(filteredLists);
+    }, [sorting, lists]);
+
+    const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSorting(e.target.value);
     };
 
     return (
-        <Container name="filter" onChange={handleSelect}>
+        <Container value={sorting} name="filter" onChange={handleSelect}>
             <option value="all">All</option>
             <option value="completed">Completed</option>
             <option value="uncompleted">Uncompleted</option>
